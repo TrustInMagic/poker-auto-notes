@@ -1,0 +1,51 @@
+.player {
+  color: white;
+  border: solid white 3px;
+  padding: 5px;
+  position: absolute;
+  height: 70px;
+  width: 140px;
+  border-radius: 10px;
+}
+
+.setter,
+.name-set {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.name-input {
+  width: 100%;
+  color: white;
+  background: rgba(220, 255, 243, 0.4);
+  border-radius: 5px;
+}
+
+.name {
+  text-align: center;
+}
+
+.set-name,
+.edit-name {
+  background-color: #e4e4e7;
+  color: black;
+  border-radius: 20px;
+  padding: 1px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all ease-in-out 0.3s;
+}
+
+.edit-name {
+  background-color: #fef08a;
+}
+
+.set-name:hover {
+  background-color: #d1d5db;
+}
+
+.edit-name:hover {
+  background-color: #fde047;
+}
