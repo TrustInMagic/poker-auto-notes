@@ -6,9 +6,10 @@ import { player1, player2, player3, player4, player5 } from './player.config';
 
 interface PlayerProps {
   position: number;
+  searchPlayer: () => void;
 }
 
-function Player({ position }: PlayerProps) {
+function Player({ position, searchPlayer }: PlayerProps) {
   const [name, setName] = React.useState('');
   const [nameSaved, setNameSaved] = React.useState(false);
 
@@ -41,7 +42,9 @@ function Player({ position }: PlayerProps) {
           />
           <button
             className={style['set-name']}
-            onClick={() => setNameSaved(true)}
+            onClick={() => {
+              if (name) setNameSaved(true);
+            }}
           >
             Set name
           </button>
@@ -52,6 +55,7 @@ function Player({ position }: PlayerProps) {
           <button
             className={style['edit-name']}
             onClick={() => {
+              setName('');
               setNameSaved(false);
             }}
           >
