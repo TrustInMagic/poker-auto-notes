@@ -3,15 +3,18 @@
 import React from 'react';
 import style from './Player.module.css';
 import { player1, player2, player3, player4, player5 } from './player.config';
+import { PlayerSearchResults } from '@/app/page';
 
 interface PlayerProps {
   position: number;
-  searchPlayer: () => void;
+  searchPlayer: (name: string) => PlayerSearchResults;
 }
 
 function Player({ position, searchPlayer }: PlayerProps) {
   const [name, setName] = React.useState('');
   const [nameSaved, setNameSaved] = React.useState(false);
+  const [playerStatus, setPlayerStatus] = React.useState('unknown');
+  const [playerNotes, setPlayerNotes] = React.useState('unknown');
 
   let customStyle;
 
@@ -43,7 +46,13 @@ function Player({ position, searchPlayer }: PlayerProps) {
           <button
             className={style['set-name']}
             onClick={() => {
-              if (name) setNameSaved(true);
+              if (name) {
+                setNameSaved(true);
+                const { status, notes } = searchPlayer(name);
+                setPlayerStatus(status);
+                setPlayerNotes(notes);
+                console.log(status, notes)
+              }
             }}
           >
             Set name
