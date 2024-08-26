@@ -18,12 +18,17 @@ export interface PlayerSearchResults {
 
 export default function Home() {
   const [playerData, setPlayerData] = React.useState<PlayerData>();
+  const [allPlayers, setAllPlayers] = React.useState<string[]>([]);
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('omfg');
+    setPlayerData({});
     let file;
     if (e.target.files) {
       file = e.target.files[0];
     }
+
+    if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -39,6 +44,8 @@ export default function Home() {
       parseArrayData(dataToArray as string[][]);
     };
     reader.readAsBinaryString(file as Blob);
+
+    e.target.value = '';
   };
 
   const parseArrayData = (data: string[][]) => {
@@ -46,8 +53,9 @@ export default function Home() {
     const parsedPlayerData: PlayerData = {};
 
     playerData.forEach((entry) => {
-      console.log(entry[0]);
-      parsedPlayerData[entry[0]] = {
+      const playerName = entry[0]?.replace(/\s+/g, '').toLowerCase();
+      setAllPlayers((prev) => [...prev, playerName]);
+      parsedPlayerData[playerName] = {
         status: entry[1],
         notes: entry[2],
       };
@@ -66,7 +74,7 @@ export default function Home() {
     return { status: 'undefined', notes: 'undefined' };
   };
 
-  console.log(playerData)
+  console.log(allPlayers);
 
   return (
     <div className='app'>
@@ -82,11 +90,31 @@ export default function Home() {
         />
       </div>
       <div className='table'>
-        <Player position={1} searchPlayer={searchPlayer} />
-        <Player position={2} searchPlayer={searchPlayer} />
-        <Player position={3} searchPlayer={searchPlayer} />
-        <Player position={4} searchPlayer={searchPlayer} />
-        <Player position={5} searchPlayer={searchPlayer} />
+        <Player
+          position={1}
+          searchPlayer={searchPlayer}
+          allPlayers={allPlayers}
+        />
+        <Player
+          position={2}
+          searchPlayer={searchPlayer}
+          allPlayers={allPlayers}
+        />
+        <Player
+          position={3}
+          searchPlayer={searchPlayer}
+          allPlayers={allPlayers}
+        />
+        <Player
+          position={4}
+          searchPlayer={searchPlayer}
+          allPlayers={allPlayers}
+        />
+        <Player
+          position={5}
+          searchPlayer={searchPlayer}
+          allPlayers={allPlayers}
+        />
       </div>
     </div>
   );

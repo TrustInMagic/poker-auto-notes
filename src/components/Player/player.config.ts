@@ -1,8 +1,8 @@
-const player1 = { left: '4%', top: '70%' };
+const player1 = { left: '4%', top: '73%' };
 
 const player2 = { left: '1%', top: '47%' };
 
-const player3 = { left: '5%', top: '20%' };
+const player3 = { left: '5%', top: '18%' };
 
 const player4 = { left: '30%', top: '6%' };
 
