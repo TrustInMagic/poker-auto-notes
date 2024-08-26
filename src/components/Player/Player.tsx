@@ -3,23 +3,30 @@
 import React from 'react';
 import style from './Player.module.css';
 import { player1, player2, player3, player4, player5 } from './player.config';
-import { PlayerSearchResults } from '@/app/page';
 import Autocomplete from '../Autocomplete/Autocomplete';
+import { searchPlayerType } from '@/app/page';
 
 interface PlayerProps {
   position: number;
-  searchPlayer: (name: string) => PlayerSearchResults;
+  searchPlayer: searchPlayerType;
   allPlayers: string[];
+  setScrollContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Player({ position, searchPlayer, allPlayers }: PlayerProps) {
-  const [name, setName] = React.useState('');
+function Player({
+  position,
+  searchPlayer,
+  allPlayers,
+  setScrollContent,
+}: PlayerProps) {
+  const [name, setName] = React.useState<string>('');
   const [nameSaved, setNameSaved] = React.useState(false);
   const [autocompleteOptions, setAutocompleteOptions] = React.useState<
     string[]
   >([]);
-  const [playerStatus, setPlayerStatus] = React.useState('unknown');
-  const [playerNotes, setPlayerNotes] = React.useState('unknown');
+  const [playerStatus, setPlayerStatus] = React.useState<string>('');
+  const [playerNotes, setPlayerNotes] = React.useState<string>('');
+  const [showScroll, setShowScroll] = React.useState(true);
 
   let customStyle;
 
@@ -48,12 +55,74 @@ function Player({ position, searchPlayer, allPlayers }: PlayerProps) {
     });
   };
 
-  console.log(autocompleteOptions);
+  console.log(`Status: ${playerStatus}, notes: ${playerNotes}`);
 
   return (
-    <div className={style.player} style={customStyle}>
+    <div
+      className={style.player}
+      style={{
+        ...customStyle,
+        borderColor:
+          playerStatus === 'fish'
+            ? 'green'
+            : playerStatus === 'reg'
+            ? 'yellow'
+            : playerStatus === 'agro fish'
+            ? 'red'
+            : 'white',
+      }}
+    >
       <div>
-        <Autocomplete options={autocompleteOptions} />
+        <Autocomplete
+          options={autocompleteOptions}
+          setName={setName}
+          setAutocompleteOptions={setAutocompleteOptions}
+        />
+      </div>
+      <div>
+        {playerNotes ? (
+          <svg
+            width='20px'
+            height='20px'
+            viewBox='0 0 24 24'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+            style={{
+              position: 'absolute',
+              top: -25,
+              left: -5,
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setShowScroll((prev) => !prev);
+              showScroll ? setScrollContent(playerNotes) : setScrollContent('');
+            }}
+          >
+            <path
+              d='M20 14V7C20 5.34315 18.6569 4 17 4H7C5.34315 4 4 5.34315 4 7V17C4 18.6569 5.34315 20 7 20H13.5M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20'
+              stroke='#ffff'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
+            <path
+              d='M8 8H16'
+              stroke='#ffff'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
+            <path
+              d='M8 12H12'
+              stroke='#ffff'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
+          </svg>
+        ) : (
+          ''
+        )}
       </div>
       {!nameSaved ? (
         <div className={style.setter}>
@@ -65,6 +134,7 @@ function Player({ position, searchPlayer, allPlayers }: PlayerProps) {
               setName(inputName);
               if (inputName) autocomplete(inputName);
             }}
+            value={name.toLowerCase()}
           />
           <button
             className={style['set-name']}
@@ -72,9 +142,8 @@ function Player({ position, searchPlayer, allPlayers }: PlayerProps) {
               if (name) {
                 setNameSaved(true);
                 const { status, notes } = searchPlayer(name);
-                setPlayerStatus(status);
+                setPlayerStatus(status.replace(/ /g, ''));
                 setPlayerNotes(notes);
-                console.log(status, notes);
               }
             }}
           >
@@ -89,9 +158,12 @@ function Player({ position, searchPlayer, allPlayers }: PlayerProps) {
             onClick={() => {
               setName('');
               setNameSaved(false);
+              setPlayerStatus('');
+              setPlayerNotes('');
+              setScrollContent('');
             }}
           >
-            Edit name
+            Change name
           </button>
         </div>
       )}

@@ -4,6 +4,11 @@ import React from 'react';
 import Player from '@/components/Player/Player';
 import * as XLSX from 'xlsx';
 
+export type searchPlayerType = (name: string) => {
+  status: string;
+  notes: string;
+};
+
 interface PlayerData {
   [k: string]: {
     status: string;
@@ -19,9 +24,9 @@ export interface PlayerSearchResults {
 export default function Home() {
   const [playerData, setPlayerData] = React.useState<PlayerData>();
   const [allPlayers, setAllPlayers] = React.useState<string[]>([]);
+  const [scrollContent, setScrollContent] = React.useState<string>('');
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('omfg');
     setPlayerData({});
     let file;
     if (e.target.files) {
@@ -64,7 +69,7 @@ export default function Home() {
     setPlayerData(parsedPlayerData);
   };
 
-  const searchPlayer = (name: string): PlayerSearchResults => {
+  const searchPlayer: searchPlayerType = (name) => {
     if (playerData && playerData[name]) {
       return {
         status: playerData[name].status,
@@ -73,8 +78,6 @@ export default function Home() {
     }
     return { status: 'undefined', notes: 'undefined' };
   };
-
-  console.log(allPlayers);
 
   return (
     <div className='app'>
@@ -90,29 +93,40 @@ export default function Home() {
         />
       </div>
       <div className='table'>
+        <div
+          className='scroll'
+          style={{ visibility: scrollContent ? 'visible' : 'hidden' }}
+        >
+          {scrollContent}
+        </div>
         <Player
           position={1}
           searchPlayer={searchPlayer}
           allPlayers={allPlayers}
+          setScrollContent={setScrollContent}
         />
         <Player
           position={2}
           searchPlayer={searchPlayer}
+          setScrollContent={setScrollContent}
           allPlayers={allPlayers}
         />
         <Player
           position={3}
           searchPlayer={searchPlayer}
+          setScrollContent={setScrollContent}
           allPlayers={allPlayers}
         />
         <Player
           position={4}
           searchPlayer={searchPlayer}
+          setScrollContent={setScrollContent}
           allPlayers={allPlayers}
         />
         <Player
           position={5}
           searchPlayer={searchPlayer}
+          setScrollContent={setScrollContent}
           allPlayers={allPlayers}
         />
       </div>
