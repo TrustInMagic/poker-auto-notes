@@ -78,7 +78,7 @@ function Player({
         />
       </div>
       <div>
-        {playerNotes ? (
+        {playerNotes.length > 1 ? (
           <svg
             width='20px'
             height='20px'
