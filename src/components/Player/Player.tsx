@@ -55,8 +55,6 @@ function Player({
     });
   };
 
-  console.log(`Status: ${playerStatus}, notes: ${playerNotes}`);
-
   return (
     <div
       className={style.player}
@@ -156,8 +154,9 @@ function Player({
           <button
             className={style['edit-name']}
             onClick={() => {
-              setName('');
               setNameSaved(false);
+              setShowScroll(false);
+              setName('');
               setPlayerStatus('');
               setPlayerNotes('');
               setScrollContent('');

@@ -1,0 +1,11 @@
+.line::before {
+  content: ' ';
+  width: 6px;
+  height: 6px;
+  background-color: rgb(65, 65, 65);
+  display: inline-block;
+  border-radius: 10px;
+  position: relative;
+  left: -5px;
+  top: -1px;
+}

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Player from '@/components/Player/Player';
+import ScrollContent from '@/components/ScrollContent/ScrollContent';
 import * as XLSX from 'xlsx';
 
 export type searchPlayerType = (name: string) => {
@@ -25,6 +26,7 @@ export default function Home() {
   const [playerData, setPlayerData] = React.useState<PlayerData>();
   const [allPlayers, setAllPlayers] = React.useState<string[]>([]);
   const [scrollContent, setScrollContent] = React.useState<string>('');
+  const [uploadStatus, setUploadStatus] = React.useState(false);
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayerData({});
@@ -48,7 +50,7 @@ export default function Home() {
       const dataToArray = XLSX.utils.sheet_to_json(ws, { header: 1 });
       parseArrayData(dataToArray as string[][]);
     };
-    reader.readAsBinaryString(file as Blob);
+    reader.readAsBinaryString(file);
 
     e.target.value = '';
   };
@@ -67,6 +69,10 @@ export default function Home() {
     });
 
     setPlayerData(parsedPlayerData);
+
+    if (parsedPlayerData) {
+      setUploadStatus(true);
+    }
   };
 
   const searchPlayer: searchPlayerType = (name) => {
@@ -93,11 +99,16 @@ export default function Home() {
         />
       </div>
       <div className='table'>
+        <div className='status'>
+          {uploadStatus
+            ? 'Ready to roll!'
+            : 'Please upload player notes.'}
+        </div>
         <div
           className='scroll'
-          style={{ visibility: scrollContent ? 'visible' : 'hidden' }}
+          style={{ opacity: scrollContent ? '100%' : '0%' }}
         >
-          {scrollContent}
+          <ScrollContent content={scrollContent} />
         </div>
         <Player
           position={1}
