@@ -84,7 +84,7 @@ export default function Home() {
     }
     return { status: 'undefined', notes: 'undefined' };
   };
-
+  
   return (
     <div className='app'>
       <div className='notes-container'>
@@ -100,9 +100,7 @@ export default function Home() {
       </div>
       <div className='table'>
         <div className='status'>
-          {uploadStatus
-            ? 'Ready to roll!'
-            : 'Please upload player notes.'}
+          {uploadStatus ? 'Ready to roll!' : 'Please upload player notes.'}
         </div>
         <div
           className='scroll'
