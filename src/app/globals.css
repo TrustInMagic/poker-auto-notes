@@ -23,7 +23,7 @@ body {
   height: 100%;
   min-height: 400px;
   min-width: 800px;
-  background-image: url(/assets/table.png);
+  background-image: url(/poker-auto-notes/assets/table.png);
   background-repeat: no-repeat;
   background-size: 80%;
   background-position: center;
@@ -51,7 +51,7 @@ body {
 .scroll {
   color: rgb(65, 65, 65);
   position: relative;
-  background-image: url(/assets/scroll.png);
+  background-image: url(/poker-auto-notes/assets/scroll.png);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
