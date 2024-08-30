@@ -60,7 +60,11 @@ export default function Home() {
     const parsedPlayerData: PlayerData = {};
 
     playerData.forEach((entry) => {
-      const playerName = entry[0]?.replace(/\s+/g, '').toLowerCase();
+      const playerName = entry[0]
+        ?.replace(/\s+/g, '')
+        .replace(/\r\n/g, '/')
+        .toLowerCase();
+      console.log(playerName);
       setAllPlayers((prev) => [...prev, playerName]);
       parsedPlayerData[playerName] = {
         status: entry[1],
@@ -84,7 +88,7 @@ export default function Home() {
     }
     return { status: 'undefined', notes: 'undefined' };
   };
-  
+
   return (
     <div className='app'>
       <div className='notes-container'>

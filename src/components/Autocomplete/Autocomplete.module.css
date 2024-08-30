@@ -5,8 +5,10 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
+  overflow-x: hidden;
   bottom: 75px;
   right: -10px;
+  outline: none;
 }
 
 .autocomplete-option {

@@ -55,6 +55,7 @@ function Player({
     });
   };
 
+
   return (
     <div
       className={style.player}
@@ -65,7 +66,7 @@ function Player({
             ? 'green'
             : playerStatus === 'reg'
             ? 'yellow'
-            : playerStatus === 'agro fish'
+            : playerStatus === 'agrofish'
             ? 'red'
             : 'white',
       }}
