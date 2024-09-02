@@ -5,12 +5,15 @@ import style from './Player.module.css';
 import { player1, player2, player3, player4, player5 } from './player.config';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import { searchPlayerType } from '@/app/page';
+import NoteIcon from '../NoteIcon/NoteIcon';
 
 interface PlayerProps {
   position: number;
   searchPlayer: searchPlayerType;
   allPlayers: string[];
   setScrollContent: React.Dispatch<React.SetStateAction<string>>;
+  setNoteIconActive: React.Dispatch<React.SetStateAction<number>>;
+  noteIconActive: number;
 }
 
 function Player({
@@ -18,6 +21,8 @@ function Player({
   searchPlayer,
   allPlayers,
   setScrollContent,
+  setNoteIconActive,
+  noteIconActive,
 }: PlayerProps) {
   const [name, setName] = React.useState<string>('');
   const [nameSaved, setNameSaved] = React.useState(false);
@@ -78,46 +83,14 @@ function Player({
         />
       </div>
       <div>
-        {playerNotes.length > 1 && playerNotes !== 'undefined' ? (
-          <svg
-            width='20px'
-            height='20px'
-            viewBox='0 0 24 24'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-            style={{
-              position: 'absolute',
-              top: -25,
-              left: -5,
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              setShowScroll((prev) => !prev);
-              showScroll ? setScrollContent(playerNotes) : setScrollContent('');
-            }}
-          >
-            <path
-              d='M20 14V7C20 5.34315 18.6569 4 17 4H7C5.34315 4 4 5.34315 4 7V17C4 18.6569 5.34315 20 7 20H13.5M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20'
-              stroke='#ffff'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-            <path
-              d='M8 8H16'
-              stroke='#ffff'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-            <path
-              d='M8 12H12'
-              stroke='#ffff'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
+        {playerNotes?.length > 1 && playerNotes !== 'undefined' ? (
+          <NoteIcon
+            setScrollContent={setScrollContent}
+            playerNotes={playerNotes}
+            noteIconActive={noteIconActive}
+            setNoteIconActive={setNoteIconActive}
+            position={position}
+          />
         ) : (
           ''
         )}
@@ -155,7 +128,6 @@ function Player({
             className={style['edit-name']}
             onClick={() => {
               setNameSaved(false);
-              setShowScroll(false);
               setName('');
               setPlayerStatus('');
               setPlayerNotes('');

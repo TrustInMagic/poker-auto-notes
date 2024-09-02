@@ -27,6 +27,7 @@ export default function Home() {
   const [allPlayers, setAllPlayers] = React.useState<string[]>([]);
   const [scrollContent, setScrollContent] = React.useState<string>('');
   const [uploadStatus, setUploadStatus] = React.useState(false);
+  const [noteIconActive, setNoteIconActive] = React.useState<number>(0);
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayerData({});
@@ -62,10 +63,9 @@ export default function Home() {
 
     playerData.forEach((entry) => {
       const playerName = entry[0]
+        ?.replace(/\n/g, '/')
         ?.replace(/\s+/g, '')
-        .replace(/\r\n/g, '/')
         .toLowerCase();
-      console.log(playerName);
       setAllPlayers((prev) => [...prev, playerName]);
       parsedPlayerData[playerName] = {
         status: entry[1],
@@ -90,6 +90,11 @@ export default function Home() {
     return { status: 'undefined', notes: 'undefined' };
   };
 
+  document.addEventListener('keydown', (e) => {
+    setScrollContent('');
+    e.key === 'Escape' ? setNoteIconActive(0) : '';
+  });
+
   return (
     <div className='app'>
       <div className='notes-container'>
@@ -112,36 +117,55 @@ export default function Home() {
           style={{ opacity: scrollContent ? '100%' : '0%' }}
         >
           <ScrollContent content={scrollContent} />
+          <div
+            className='x'
+            onClick={() => {
+              setNoteIconActive(0);
+              setScrollContent('');
+            }}
+          >
+            ✖
+          </div>
         </div>
         <Player
           position={1}
           searchPlayer={searchPlayer}
           allPlayers={allPlayers}
           setScrollContent={setScrollContent}
+          setNoteIconActive={setNoteIconActive}
+          noteIconActive={noteIconActive}
         />
         <Player
           position={2}
           searchPlayer={searchPlayer}
           setScrollContent={setScrollContent}
           allPlayers={allPlayers}
+          setNoteIconActive={setNoteIconActive}
+          noteIconActive={noteIconActive}
         />
         <Player
           position={3}
           searchPlayer={searchPlayer}
           setScrollContent={setScrollContent}
           allPlayers={allPlayers}
+          setNoteIconActive={setNoteIconActive}
+          noteIconActive={noteIconActive}
         />
         <Player
           position={4}
           searchPlayer={searchPlayer}
           setScrollContent={setScrollContent}
           allPlayers={allPlayers}
+          setNoteIconActive={setNoteIconActive}
+          noteIconActive={noteIconActive}
         />
         <Player
           position={5}
           searchPlayer={searchPlayer}
           setScrollContent={setScrollContent}
           allPlayers={allPlayers}
+          setNoteIconActive={setNoteIconActive}
+          noteIconActive={noteIconActive}
         />
       </div>
     </div>
