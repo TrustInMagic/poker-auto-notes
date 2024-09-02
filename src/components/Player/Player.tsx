@@ -55,7 +55,6 @@ function Player({
     });
   };
 
-
   return (
     <div
       className={style.player}
@@ -79,7 +78,7 @@ function Player({
         />
       </div>
       <div>
-        {playerNotes.length > 1 ? (
+        {playerNotes.length > 1 && playerNotes !== 'undefined' ? (
           <svg
             width='20px'
             height='20px'

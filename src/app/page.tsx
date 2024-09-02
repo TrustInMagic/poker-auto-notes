@@ -30,6 +30,7 @@ export default function Home() {
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayerData({});
+    setAllPlayers([]);
     let file;
     if (e.target.files) {
       file = e.target.files[0];
