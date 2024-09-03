@@ -1,11 +1,10 @@
-'use client';
-
 import React from 'react';
 import style from './Player.module.css';
 import { player1, player2, player3, player4, player5 } from './player.config';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import { searchPlayerType } from '@/app/page';
 import NoteIcon from '../NoteIcon/NoteIcon';
+import TagMenu from '../TagMenu/TagMenu';
 
 interface PlayerProps {
   position: number;
@@ -13,7 +12,9 @@ interface PlayerProps {
   allPlayers: string[];
   setScrollContent: React.Dispatch<React.SetStateAction<string>>;
   setNoteIconActive: React.Dispatch<React.SetStateAction<number>>;
+  setTagMenuActive: React.Dispatch<React.SetStateAction<number>>;
   noteIconActive: number;
+  tagMenuActive: number;
 }
 
 function Player({
@@ -23,6 +24,8 @@ function Player({
   setScrollContent,
   setNoteIconActive,
   noteIconActive,
+  tagMenuActive,
+  setTagMenuActive,
 }: PlayerProps) {
   const [name, setName] = React.useState<string>('');
   const [nameSaved, setNameSaved] = React.useState(false);
@@ -31,7 +34,11 @@ function Player({
   >([]);
   const [playerStatus, setPlayerStatus] = React.useState<string>('');
   const [playerNotes, setPlayerNotes] = React.useState<string>('');
-  const [showScroll, setShowScroll] = React.useState(true);
+  const [showTagMenu, setShowTagMenu] = React.useState(false);
+  const [menuPosition, setMenuPosition] = React.useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
 
   let customStyle;
 
@@ -60,6 +67,18 @@ function Player({
     });
   };
 
+  const handleRightClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const playerBox = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - playerBox.left;
+    const y = e.clientY - playerBox.top;
+
+    setTagMenuActive(position);
+    setMenuPosition({ x, y });
+    setShowTagMenu(true);
+  };
+
   return (
     <div
       className={style.player}
@@ -74,6 +93,7 @@ function Player({
             ? 'red'
             : 'white',
       }}
+      onContextMenu={handleRightClick}
     >
       <div>
         <Autocomplete
@@ -113,7 +133,7 @@ function Player({
               if (name) {
                 setNameSaved(true);
                 const { status, notes } = searchPlayer(name);
-                setPlayerStatus(status.replace(/ /g, ''));
+                setPlayerStatus(status?.replace(/ /g, ''));
                 setPlayerNotes(notes);
               }
             }}
@@ -136,6 +156,18 @@ function Player({
           >
             Change name
           </button>
+        </div>
+      )}
+      {showTagMenu && position === tagMenuActive && (
+        <div
+          style={{
+            position: 'absolute',
+            top: `${menuPosition.y}px`,
+            left: `${menuPosition.x}px`,
+            zIndex: 1000,
+          }}
+        >
+          <TagMenu />
         </div>
       )}
     </div>

@@ -28,6 +28,8 @@ export default function Home() {
   const [scrollContent, setScrollContent] = React.useState<string>('');
   const [uploadStatus, setUploadStatus] = React.useState(false);
   const [noteIconActive, setNoteIconActive] = React.useState<number>(0);
+  const [tagMenuActive, setTagMenuActive] = React.useState<number>(0);
+  const scrollRef = React.useRef(null);
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayerData({});
@@ -90,10 +92,39 @@ export default function Home() {
     return { status: 'undefined', notes: 'undefined' };
   };
 
-  document.addEventListener('keydown', (e) => {
-    setScrollContent('');
-    e.key === 'Escape' ? setNoteIconActive(0) : '';
-  });
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setNoteIconActive(0);
+        setScrollContent('');
+        setTagMenuActive(0);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      setTagMenuActive(0);
+      if (e.target !== scrollRef.current && noteIconActive !== 0) {
+        setNoteIconActive(0);
+        setScrollContent('');
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [noteIconActive]);
+
+  console.log(tagMenuActive);
 
   return (
     <div className='app'>
@@ -113,8 +144,11 @@ export default function Home() {
           {uploadStatus ? 'Ready to roll!' : 'Please upload player notes.'}
         </div>
         <div
+          ref={scrollRef}
           className='scroll'
-          style={{ opacity: scrollContent ? '100%' : '0%' }}
+          style={{
+            opacity: scrollContent ? '100%' : '0%',
+          }}
         >
           <ScrollContent content={scrollContent} />
           <div
@@ -134,6 +168,8 @@ export default function Home() {
           setScrollContent={setScrollContent}
           setNoteIconActive={setNoteIconActive}
           noteIconActive={noteIconActive}
+          setTagMenuActive={setTagMenuActive}
+          tagMenuActive={tagMenuActive}
         />
         <Player
           position={2}
@@ -142,6 +178,8 @@ export default function Home() {
           allPlayers={allPlayers}
           setNoteIconActive={setNoteIconActive}
           noteIconActive={noteIconActive}
+          setTagMenuActive={setTagMenuActive}
+          tagMenuActive={tagMenuActive}
         />
         <Player
           position={3}
@@ -150,6 +188,8 @@ export default function Home() {
           allPlayers={allPlayers}
           setNoteIconActive={setNoteIconActive}
           noteIconActive={noteIconActive}
+          setTagMenuActive={setTagMenuActive}
+          tagMenuActive={tagMenuActive}
         />
         <Player
           position={4}
@@ -158,6 +198,8 @@ export default function Home() {
           allPlayers={allPlayers}
           setNoteIconActive={setNoteIconActive}
           noteIconActive={noteIconActive}
+          setTagMenuActive={setTagMenuActive}
+          tagMenuActive={tagMenuActive}
         />
         <Player
           position={5}
@@ -166,6 +208,8 @@ export default function Home() {
           allPlayers={allPlayers}
           setNoteIconActive={setNoteIconActive}
           noteIconActive={noteIconActive}
+          setTagMenuActive={setTagMenuActive}
+          tagMenuActive={tagMenuActive}
         />
       </div>
     </div>
