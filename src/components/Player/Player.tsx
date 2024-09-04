@@ -135,6 +135,7 @@ function Player({
                 const { status, notes } = searchPlayer(name);
                 setPlayerStatus(status?.replace(/ /g, ''));
                 setPlayerNotes(notes);
+                setAutocompleteOptions([]);
               }
             }}
           >
@@ -158,7 +159,7 @@ function Player({
           </button>
         </div>
       )}
-      {showTagMenu && position === tagMenuActive && (
+      {showTagMenu && position === tagMenuActive && name && (
         <div
           style={{
             position: 'absolute',
@@ -167,7 +168,7 @@ function Player({
             zIndex: 1000,
           }}
         >
-          <TagMenu />
+          <TagMenu setPlayerStatus={setPlayerStatus} />
         </div>
       )}
     </div>

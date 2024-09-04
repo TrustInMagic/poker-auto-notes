@@ -1,5 +1,29 @@
 .menu {
-  height: 50px;
-  width: 50px;
-  border: solid pink 2px;
+  height: 80px;
+  width: 100px;
+  background-color: rgb(156, 156, 156);
+  border-radius: 5px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+}
+
+.player-type {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+}
+
+.player-type:hover {
+  color: rgb(144, 255, 255);
+
+}
+
+.color {
+  width: 15px;
+  height: 15px;
 }

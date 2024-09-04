@@ -124,20 +124,31 @@ export default function Home() {
     };
   }, [noteIconActive]);
 
-  console.log(tagMenuActive);
-
   return (
     <div className='app'>
-      <div className='notes-container'>
-        <label htmlFor='notes' className='notes'>
-          Add notes
-        </label>
-        <input
-          type='file'
-          className='add-notes'
-          id='notes'
-          onChange={processFile}
-        />
+      <div className='top-bar-container'>
+        <div className='notes-container'>
+          <label htmlFor='notes' className='notes'>
+            Add notes
+          </label>
+          <input
+            type='file'
+            className='add-notes'
+            id='notes'
+            onChange={processFile}
+          />
+        </div>
+        {/* <div className='size-adjust'>
+          <div className='size-prompt'>
+            Recommended window size: 1000px x 500px
+          </div>
+          <button
+            className='size-button'
+            onClick={() => window.resizeTo(1000, 580)}
+          >
+            Recommended
+          </button>
+        </div> */}
       </div>
       <div className='table'>
         <div className='status'>
