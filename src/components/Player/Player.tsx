@@ -15,6 +15,7 @@ interface PlayerProps {
   setTagMenuActive: React.Dispatch<React.SetStateAction<number>>;
   noteIconActive: number;
   tagMenuActive: number;
+  reset: boolean;
 }
 
 function Player({
@@ -26,6 +27,7 @@ function Player({
   noteIconActive,
   tagMenuActive,
   setTagMenuActive,
+  reset,
 }: PlayerProps) {
   const [name, setName] = React.useState<string>('');
   const [nameSaved, setNameSaved] = React.useState(false);
@@ -78,6 +80,15 @@ function Player({
     setMenuPosition({ x, y });
     setShowTagMenu(true);
   };
+
+  React.useEffect(() => {
+    setName('');
+    setNameSaved(false);
+    setPlayerStatus('');
+    setPlayerNotes('');
+    setScrollContent('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset]);
 
   return (
     <div

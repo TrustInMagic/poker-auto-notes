@@ -4,6 +4,9 @@ import React from 'react';
 import Player from '@/components/Player/Player';
 import ScrollContent from '@/components/ScrollContent/ScrollContent';
 import * as XLSX from 'xlsx';
+import AddNotesSVG from '@/components/AddNotesSVG/AddNotesSVG';
+import ResetSVG from '@/components/ResetSVG/ResetSVG';
+import Tooltip from '@/components/Tooltip/Tooltip';
 
 export type searchPlayerType = (name: string) => {
   status: string;
@@ -30,6 +33,7 @@ export default function Home() {
   const [noteIconActive, setNoteIconActive] = React.useState<number>(0);
   const [tagMenuActive, setTagMenuActive] = React.useState<number>(0);
   const scrollRef = React.useRef(null);
+  const [resetToggle, setResetToggle] = React.useState<boolean>(false);
 
   const processFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlayerData({});
@@ -124,12 +128,18 @@ export default function Home() {
     };
   }, [noteIconActive]);
 
+  const resetPlayers = () => {
+    setResetToggle((prev) => !prev);
+  };
+
   return (
     <div className='app'>
       <div className='top-bar-container'>
         <div className='notes-container'>
           <label htmlFor='notes' className='notes'>
-            Add notes
+            <Tooltip text='Add Notes'>
+              <AddNotesSVG />
+            </Tooltip>
           </label>
           <input
             type='file'
@@ -138,21 +148,15 @@ export default function Home() {
             onChange={processFile}
           />
         </div>
-        {/* <div className='size-adjust'>
-          <div className='size-prompt'>
-            Recommended window size: 1000px x 500px
-          </div>
-          <button
-            className='size-button'
-            onClick={() => window.resizeTo(1000, 580)}
-          >
-            Recommended
-          </button>
-        </div> */}
+        <div className='reset' onClick={resetPlayers}>
+          <Tooltip text='Reset'>
+            <ResetSVG />
+          </Tooltip>
+        </div>
       </div>
       <div className='table'>
         <div className='status'>
-          {uploadStatus ? 'Ready to roll!' : 'Please upload player notes.'}
+          {uploadStatus ? 'Ready to roll!' : 'Please upload notes'}
         </div>
         <div
           ref={scrollRef}
@@ -181,6 +185,7 @@ export default function Home() {
           noteIconActive={noteIconActive}
           setTagMenuActive={setTagMenuActive}
           tagMenuActive={tagMenuActive}
+          reset={resetToggle}
         />
         <Player
           position={2}
@@ -191,6 +196,7 @@ export default function Home() {
           noteIconActive={noteIconActive}
           setTagMenuActive={setTagMenuActive}
           tagMenuActive={tagMenuActive}
+          reset={resetToggle}
         />
         <Player
           position={3}
@@ -201,6 +207,7 @@ export default function Home() {
           noteIconActive={noteIconActive}
           setTagMenuActive={setTagMenuActive}
           tagMenuActive={tagMenuActive}
+          reset={resetToggle}
         />
         <Player
           position={4}
@@ -211,6 +218,7 @@ export default function Home() {
           noteIconActive={noteIconActive}
           setTagMenuActive={setTagMenuActive}
           tagMenuActive={tagMenuActive}
+          reset={resetToggle}
         />
         <Player
           position={5}
@@ -221,6 +229,7 @@ export default function Home() {
           noteIconActive={noteIconActive}
           setTagMenuActive={setTagMenuActive}
           tagMenuActive={tagMenuActive}
+          reset={resetToggle}
         />
       </div>
     </div>
