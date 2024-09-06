@@ -1,0 +1,8 @@
+.timer {
+  color: white;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  position: absolute;
+  bottom: 65px;
+  right: 0px
+}

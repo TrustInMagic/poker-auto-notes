@@ -7,8 +7,6 @@ function ScrollContent({ content }: { content: string }) {
 
   lines.forEach((line) => (line.length > 0 ? trimmedLines.push(line) : ''));
 
-  console.log(trimmedLines);
-
   return (
     <ul>
       {content

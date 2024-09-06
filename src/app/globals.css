@@ -28,8 +28,8 @@ body {
   height: 100%;
   min-height: 400px;
   min-width: 800px;
-  /* background-image: url(/assets/table.png); */
-  background-image: url(/poker-auto-notes/assets/table.png);
+  background-image: url(/assets/table.png);
+  /* background-image: url(/poker-auto-notes/assets/table.png); */
   background-repeat: no-repeat;
   background-size: 80%;
   background-position: center;
@@ -71,8 +71,8 @@ svg {
 .scroll {
   color: rgb(65, 65, 65);
   position: relative;
-  background-image: url(/poker-auto-notes/assets/scroll.png);
-  /* background-image: url(/assets/scroll.png); */
+  /* background-image: url(/poker-auto-notes/assets/scroll.png); */
+  background-image: url(/assets/scroll.png);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
@@ -103,8 +103,9 @@ svg {
 
 .x {
   cursor: pointer;
-  position: relative;
-  top: -10px;
+  position: absolute;
+  top: 40px;
+  right: 70px;
   font-size: 1.3rem;
   display: inline-block;
   transition: transform 0.3s ease-in-out;
@@ -114,3 +115,16 @@ svg {
   transform: rotate(180deg);
 }
 
+.scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(135, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(58, 225, 255, 0.5);
+}

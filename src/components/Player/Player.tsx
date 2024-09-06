@@ -5,6 +5,7 @@ import Autocomplete from '../Autocomplete/Autocomplete';
 import { searchPlayerType } from '@/app/page';
 import NoteIcon from '../NoteIcon/NoteIcon';
 import TagMenu from '../TagMenu/TagMenu';
+import Timer from '../Timer/Timer';
 
 interface PlayerProps {
   position: number;
@@ -41,6 +42,9 @@ function Player({
     x: number;
     y: number;
   }>({ x: 0, y: 0 });
+  const [showTimer, setShowTimer] = React.useState(false);
+  const [typing, setTyping] = React.useState(false);
+  const typingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   let customStyle;
 
@@ -89,6 +93,29 @@ function Player({
     setScrollContent('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
+
+  React.useEffect(() => {
+    if (name) {
+      setTyping(true);
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+
+      typingTimeoutRef.current = setTimeout(() => {
+        setTyping(false);
+        setShowTimer(true);
+      }, 3000);
+    } else {
+      setShowTimer(false);
+      setTyping(false);
+    }
+
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, [name]);
 
   return (
     <div
@@ -182,6 +209,7 @@ function Player({
           <TagMenu setPlayerStatus={setPlayerStatus} />
         </div>
       )}
+      <Timer active={showTimer} />
     </div>
   );
 }
